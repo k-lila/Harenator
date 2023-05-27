@@ -54,22 +54,22 @@ def seletor(sample_rate, tipo, frequencia):
         return synth_tri(sample_rate=sample_rate, frequencia=frequencia)
 # ==================================================================================================================== #
 # testes
-def tester(teste: str):
-    sample_rate = 44100
-    frequencia = 440
-    if teste == 'senoide':
-        teste = synth_sen(sample_rate, frequencia)
-        plt.plot(teste)
-    if teste == 'quadrada':
-        teste = synth_quad(sample_rate, frequencia)
-        plt.plot(teste)
-    if teste == 'serra':
-        teste = synth_serr(sample_rate, frequencia)
-        plt.plot(teste)
-    if teste == 'triangular':
-        teste = synth_tri(sample_rate, frequencia)
-        plt.plot(teste)
-    return plt.show()
+# def tester(teste: str):
+#     sample_rate = 44100
+#     frequencia = 440
+#     if teste == 'senoide':
+#         teste = synth_sen(sample_rate, frequencia)
+#         plt.plot(teste)
+#     if teste == 'quadrada':
+#         teste = synth_quad(sample_rate, frequencia)
+#         plt.plot(teste)
+#     if teste == 'serra':
+#         teste = synth_serr(sample_rate, frequencia)
+#         plt.plot(teste)
+#     if teste == 'triangular':
+#         teste = synth_tri(sample_rate, frequencia)
+#         plt.plot(teste)
+#     return plt.show()
 # ----------------------------------------------- #
 # tester(teste='triangular')
 # ==================================================================================================================== #

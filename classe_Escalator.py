@@ -11,8 +11,7 @@ class Escalator(object):
     multiplicados pela frequência (diapasão), retornam
     a frequência relativa à nota desejada.
     '''
-    def __init__(self, diapasao):
-        self.diapasao = diapasao
+    def __init__(self):
         self.natural = self._get_natural()
         self.pitagorica = self._get_pitagorica()
         self.cromatica = self._get_cromatica()
@@ -56,50 +55,73 @@ class Escalator(object):
         temperada = [self.cromatica[i] for i in range(len(self.cromatica)) if i in {0, 2, 4, 5, 7, 9, 11, 12}]
         return temperada
     # ------------------------------------------------------------------------------------------------ #
-    # comas - 
-    # def get_comas(self):
+    def piano(self, diapasao=440):
+        fundamental = (diapasao / self.temperada[5]) / (2 ** 4)
+        piano = []
+        for oitava in range(9):
+            for nota in self.temperada[:-1]:
+                nota_oitava = (fundamental * nota) * (2 ** oitava)
+                piano.append(nota_oitava)
+        # return piano[5:-6]
+        return piano
 # ==================================================================================================================== #
 # testes
-def tester(num=1):
-    classe = Escalator(diapasao=1)
-    # -------------------------- #
-    # escala natural
-    if num == 1:
-        escala_teste = [classe.diapasao * num for num in classe.natural]        
-        x = list(range(len(escala_teste)))
-        labels_x = ['Tônica', 'segunda', 'III', 'quarta', 'V', 'sexta', 'VII', 'Tônica']
-        plt.bar(x=x, height=escala_teste, tick_label=labels_x)
-        plt.show()
-    # --------------------------------------------------- #
-    # escala pitagórica
-    if num == 2:
-        escala_teste = classe.pitagorica
-        x = list(range(len(escala_teste)))
-        labels_x = ['Tônica', 'segunda', 'III', 'quarta', 'V', 'sexta', 'VII', 'Tônica']
-        plt.bar(x=x, height=escala_teste, tick_label=labels_x)
-        plt.show()
-    # --------------------------------------------------- #
-    # escala cromática
-    if num == 3:
-        escala_teste = [classe.diapasao * num for num in classe.cromatica]
-        x = list(range(len(escala_teste)))
-        labels_x = ['T', 'b#', 'ii', 'b#', 'iii', 'IV', 'trit', 'V', 'b#', 'vi', 'b#', 'vii', 'T']
-        plt.bar(x=x, height=escala_teste, tick_label=labels_x)
-        plt.show()
-    # --------------------------------------------------- #
-    # escala temperada
-    if num == 4:
-        escala_teste = [classe.diapasao * num for num in classe.temperada]
-        x = list(range(len(escala_teste)))
-        labels_x = ['Tônica', 'segunda', 'III', 'quarta', 'V', 'sexta', 'VII', 'Tônica']
-        plt.bar(x=x, height=escala_teste, tick_label=labels_x)
-        plt.show()
-    # --------------------------------------------------- #
-    if num == 5:
-        plt.plot(classe.natural)
-        plt.plot(classe.pitagorica)
-        plt.plot(classe.temperada)
-        plt.show()
-# ---------------------------- #
-tester(num=5)
+# def tester(num=1):
+#     classe = Escalator(diapasao=1)
+#     # -------------------------- #
+#     # escala natural
+#     if num == 1:
+#         escala_teste = [classe.diapasao * num for num in classe.natural]        
+#         x = list(range(len(escala_teste)))
+#         labels_x = ['Tônica', 'segunda', 'III', 'quarta', 'V', 'sexta', 'VII', 'Tônica']
+#         plt.bar(x=x, height=escala_teste, tick_label=labels_x)
+#         plt.show()
+#     # --------------------------------------------------- #
+#     # escala pitagórica
+#     if num == 2:
+#         escala_teste = classe.pitagorica
+#         x = list(range(len(escala_teste)))
+#         labels_x = ['Tônica', 'segunda', 'III', 'quarta', 'V', 'sexta', 'VII', 'Tônica']
+#         plt.bar(x=x, height=escala_teste, tick_label=labels_x)
+#         plt.show()
+#     # --------------------------------------------------- #
+#     # escala cromática
+#     if num == 3:
+#         escala_teste = [classe.diapasao * num for num in classe.cromatica]
+#         x = list(range(len(escala_teste)))
+#         labels_x = ['T', 'b#', 'ii', 'b#', 'iii', 'IV', 'trit', 'V', 'b#', 'vi', 'b#', 'vii', 'T']
+#         plt.bar(x=x, height=escala_teste, tick_label=labels_x)
+#         plt.show()
+#     # --------------------------------------------------- #
+#     # escala temperada
+#     if num == 4:
+#         escala_teste = [classe.diapasao * num for num in classe.temperada]
+#         x = list(range(len(escala_teste)))
+#         labels_x = ['Tônica', 'segunda', 'III', 'quarta', 'V', 'sexta', 'VII', 'Tônica']
+#         plt.bar(x=x, height=escala_teste, tick_label=labels_x)
+#         plt.show()
+#     # --------------------------------------------------- #
+#     if num == 5:
+#         plt.plot(classe.natural)
+#         # plt.plot(classe.pitagorica)
+#         plt.plot(classe.temperada)
+#         plt.show()
+#     # --------------------------------------- #
+#     if num == 6:
+#         teste = {'natural': classe.natural,
+#                 'pitagorica': classe.pitagorica,
+#                 'temperada': classe.temperada}
+#         df = pd.DataFrame(teste)
+#         print(df)
+#     # ----------------------------------------- #
+#     if num == 7:
+#         escala = [432 * nota for nota in classe.temperada]
+#         escala2 = [440 * nota for nota in classe.temperada]
+#         x = list(range(len(escala)))
+#         labels_x = ['Tônica', 'segunda', 'III', 'quarta', 'V', 'sexta', 'VII', 'Tônica']
+#         plt.bar(x=x, height=escala2, tick_label=labels_x)
+#         plt.bar(x=x, height=escala, tick_label=labels_x)
+#         plt.show()
+
+# tester(num=7)
 # ==================================================================================================================== #

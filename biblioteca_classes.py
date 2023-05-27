@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import biblioteca_ondas as ondas
+from itertools import cycle
 
 # ==================================================================================================================== #
 # Classe HareOom
@@ -104,7 +105,8 @@ class HareSom(HareOom):
                 ruido = controle - num
                 indices = np.random.choice(a=num, size=ruido, replace=False)
                 for i in indices:
-                    r = ((onda[i - 1] + onda[i + 1]) / 2).astype(np.int32)
+                    # r = ((onda[i - 1] + onda[i + 1]) / 2).astype(np.int32)
+                    r = 0
                     onda = np.insert(onda, i, r)
                 harmonicos.append(onda)
             multiplicador += 1
@@ -114,23 +116,35 @@ class HareSom(HareOom):
         onda_resultante = (onda_resultante / len(harmonicos)).astype(np.int32)
         return onda_resultante
 # ==================================================================================================================== #
+# funções acessórias
+def hz(chunk, duracao: float or int, sample_rate):
+    ciclo = cycle(range(len(chunk)))
+    num = int(sample_rate * duracao)
+    hz = np.empty(0)
+    while len(hz) != num:
+        hz = np.append(hz, chunk[next(ciclo)])
+    return hz.astype(np.int32)
+def amp(chunk, num):
+    nova_onda = chunk * num
+    return nova_onda.astype(np.int32)
+# ==================================================================================================================== #
 # testes
-def tester(num: int):    
-    sample_rate = 48000
-    frequencia = 440
-    tipos = ['senoide', 'quadrada', 'serra', 'triangular']    
-    if num == 1:
-        for tipo in tipos:
-            oom = HareOom(sample_rate=sample_rate, frequencia=frequencia, tipo=tipo).fundamental
-            plt.plot(oom)
-    if num == 2:
-        som = HareSom(sample_rate=sample_rate, frequencia=frequencia, tipo='senoide')
-        som.set_paleta(limite=5000)
-        intensidades = [1, 0.1, 0.1, 0.1, 0.1, 0.5, 0.4, 0.3, 0.2, 0.1]
-        harm = [tipos[0], tipos[1], tipos[0], tipos[1], tipos[0], tipos[0], tipos[1], tipos[2], tipos[3]]
-        som.set_timbre(intensidades=intensidades, tipos=harm)
-        plt.plot(som.get_onda())
-    return plt.show()
-# ----------------------------- #
-# tester(num=1)
+# def tester(num: int):    
+#     sample_rate = 48000
+#     frequencia = 440
+#     tipos = ['senoide', 'quadrada', 'serra', 'triangular']    
+#     if num == 1:
+#         for tipo in tipos:
+#             oom = HareOom(sample_rate=sample_rate, frequencia=frequencia, tipo=tipo).fundamental
+#             plt.plot(oom)
+#     if num == 2:
+#         som = HareSom(sample_rate=sample_rate, frequencia=frequencia, tipo='senoide')
+#         som.set_paleta(limite=5000)
+#         intensidades = [1, 0.1, 0.1, 0.1, 0.1, 0.5, 0.4, 0.3, 0.2, 0.1]
+#         harm = [tipos[0], tipos[1], tipos[0], tipos[1], tipos[0], tipos[0], tipos[1], tipos[2], tipos[3]]
+#         som.set_timbre(intensidades=intensidades, tipos=harm)
+#         plt.plot(som.get_onda())
+#     return plt.show()
+# # ----------------------------- #
+# tester(num=2)
 # ==================================================================================================================== #
