@@ -1,64 +1,24 @@
 import pygame
-import wave
-from classe_Escalator import Escalator
-from biblioteca_sons import funcionar, bassgor
+
+from source.biblioteca_sons import get_sounds
+from source.biblioteca_sons import funcionar, bassgor
+import source.biblioteca_auxiliar as bib_aux
 # ========================================================= #
+teclas = {'a', 's', 'd', 'f', 'g', 'h', 'j', 'k'}
 sample_rate = 48000
-# ========================================================= #
-def get_teclado(diapasao=440):
-    escalator = Escalator()
-    fundamental = (diapasao / escalator.temperada[5]) / (2 ** 4)
-    lista_teclado = []
-    for oitava in range(8):
-        _escala = [(fundamental * i) * (2 ** oitava) for i in escalator.natural]
-        lista_teclado.append(_escala)
-    return lista_teclado
-# -------------------------------------------------------- #
-def get_waves(chunk, path):
-    file = wave.open(path, mode='w')
-    file.setnchannels(1)
-    file.setsampwidth(4)
-    file.setframerate(sample_rate)
-    file.writeframes(chunk)
-    return file.close()
-# ----------------------------------------------------- #
-def get_sounds(num):
-    escala = get_teclado(diapasao=440)
-    if num == 1:
-        for oitava_index in range(len(escala)):
-            for nota_index in range(len(escala[oitava_index])):
-                nota = funcionar(escala[oitava_index][nota_index])
-                get_waves(chunk=nota, 
-                    path=f'./wav/{oitava_index}{nota_index}.wav')
-    if num == 2:
-        for oitava_index in range(len(escala)):
-            for nota_index in range(len(escala[oitava_index])):
-                nota = bassgor(escala[oitava_index][nota_index])
-                get_waves(chunk=nota, 
-                    path=f'./wav/{oitava_index}{nota_index}.wav')
-    return None
-# ----------------------------------------------------- #
-def get_playable():
-    teclado = []
-    for i in range(8):
-        temp = []
-        for ii in range(8):
-            som = pygame.mixer.Sound(f'./wav/{i}{ii}.wav')
-            temp.append(som)
-        teclado.append(temp)
-    return teclado
-# ----------------------------------------------------- #
 oitava = 2
-def set_oitava(num, oitava):
-    up_key = 1073741906
-    down_key = 1073741905
-    if num == up_key:
-        if oitava < 7:
-            oitava += 1
-    if num == down_key:
-        if oitava > 0:
-            oitava -= 1
-    return oitava
+intensidade = 0.6
+tipo_escala = 'temperada'
+diapasao = 440
+timbre = funcionar
+# ========================================================= #
+def atualiza_sons():
+    return get_sounds(
+        timbre=timbre, 
+        sample_rate=sample_rate, 
+        tipo=tipo_escala, 
+        diapasao=diapasao
+    )
 # ========================================================= #
 pygame.init()
 pygame.mixer.pre_init(
@@ -67,14 +27,12 @@ pygame.mixer.pre_init(
     buffer=4096)
 pygame.mixer.init()
 # --------------- #
-get_sounds(1)
-teclado = get_playable()
-# ----------------------------------------- #
-width = 1000
-height = 600
+atualiza_sons()
+teclado = bib_aux.get_playable()
+# -------------------- #
+width = 600
+height = 400
 screen = pygame.display.set_mode((width, height))
-# ========================================================= #
-teclas = {'a', 's', 'd', 'f', 'g', 'h', 'j', 'k'}
 # ========================================================= #
 run = True
 while run:
@@ -86,32 +44,59 @@ while run:
         if event.type == pygame.KEYDOWN:
             pressionada = event.dict['unicode']
             pressionada_key = event.dict['key']
+            # Para todos os sons com 'esc'
+            if pressionada == '\x1b':
+                pygame.mixer.stop()
+            # Banco de sons
             if pressionada in {'1', '2'}:
                 if pressionada == '1':
-                    get_sounds(1)
-                    teclado = get_playable()
+                    timbre = funcionar
+                    atualiza_sons()
+                    teclado = bib_aux.get_playable()
                 if pressionada == '2':
-                    get_sounds(2)
-                    teclado = get_playable()
+                    timbre = bassgor
+                    atualiza_sons()
+                    teclado = bib_aux.get_playable()
+            # Seleciona a oitava
+            if pressionada_key in {1073741903, 1073741904}:
+                oitava = bib_aux.set_oitava(pressionada_key, oitava)
+            # Aumenta/diminui a intensidade
             if pressionada_key in {1073741905, 1073741906}:
-                oitava = set_oitava(pressionada_key, oitava)
+                intensidade = bib_aux.set_intensidade(intensidade, pressionada_key)
+            # Teclado
             if pressionada in teclas:
                 if pressionada == 'a':
-                    teclado[oitava][0].play(loops=-1)
+                    sound = teclado[oitava][0]
+                    sound.set_volume(intensidade)
+                    sound.play(loops=-1)
                 if pressionada == 's':
-                    teclado[oitava][1].play(loops=-1)
+                    sound = teclado[oitava][1]
+                    sound.set_volume(intensidade)
+                    sound.play(loops=-1)
                 if pressionada == 'd':
-                    teclado[oitava][2].play(loops=-1)
+                    sound = teclado[oitava][2]
+                    sound.set_volume(intensidade)
+                    sound.play(loops=-1)
                 if pressionada == 'f':
-                    teclado[oitava][3].play(loops=-1)
+                    sound = teclado[oitava][3]
+                    sound.set_volume(intensidade)
+                    sound.play(loops=-1)
                 if pressionada == 'g':
-                    teclado[oitava][4].play(loops=-1)
+                    sound = teclado[oitava][4]
+                    sound.set_volume(intensidade)
+                    sound.play(loops=-1)
                 if pressionada == 'h':
-                    teclado[oitava][5].play(loops=-1)
+                    sound = teclado[oitava][5]
+                    sound.set_volume(intensidade)
+                    sound.play(loops=-1)
                 if pressionada == 'j':
-                    teclado[oitava][6].play(loops=-1)
+                    sound = teclado[oitava][6]
+                    sound.set_volume(intensidade)
+                    sound.play(loops=-1)
                 if pressionada == 'k':
-                    teclado[oitava][7].play(loops=-1)
+                    sound = teclado[oitava][7]
+                    sound.set_volume(intensidade)
+                    sound.play(loops=-1)
         # -------------------------------- #
         if event.type == pygame.KEYUP:
             despressionada = event.dict['unicode']
@@ -134,5 +119,5 @@ while run:
                     teclado[oitava][7].fadeout(1)
         # -------------------------------- #
 pygame.quit()
-# # ========================================================= #
+# ========================================================= #
 
