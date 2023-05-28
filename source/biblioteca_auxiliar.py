@@ -5,6 +5,7 @@ import pygame
 
 from itertools import cycle
 from source.classe_Escalator import Escalator
+
 # =========================================================================== #
 """
     A biblioteca auxiliar contém um conjunto de funções auxiliares. As funções

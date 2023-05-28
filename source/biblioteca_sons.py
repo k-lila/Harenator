@@ -1,6 +1,7 @@
 
 from source.classe_hareOomSom import HareOom, HareSom
 from source.biblioteca_auxiliar import amp, get_teclado, get_wave
+
 # =========================================================================== #
 '''
 A biblioteca de sons contém duas funções que, juntas, fornecem os sons ao
