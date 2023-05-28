@@ -14,9 +14,24 @@ funcionar = {
     'ondas': ['serra', 'quadrada', 'quadrada', 'triangular', 'serra'] 
 }
 bassgor = {
-    'intensidades': [1, 0.5, 0.6, 1, 0.3, 0.5, 0.3],
-    'ondas': ['quadrada', 'senoide', 'quadrada', 
-                'senoide', 'serra', 'senoide', 'serra']
+    'intensidades': [1, 0.6, 0.5, 0.2],
+    'ondas': ['serra', 'serra', 'senoide', 'quadrada']
+}
+senoide = {
+    'intensidades': [1],
+    'ondas': ['senoide']
+}
+quadrada = {
+    'intensidades': [1],
+    'ondas': ['quadrada']
+}
+serra = {
+    'intensidades': [1],
+    'ondas': ['serra']
+}
+triangular = {
+    'intensidades': [1],
+    'ondas': ['triangular']
 }
 # =========================================================================== #
 # define o numpy array para cada nota

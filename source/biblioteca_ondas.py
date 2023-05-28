@@ -7,7 +7,7 @@ import numpy as np
 Uma pequena biblioteca de funções que retornam arrays do numpy,
 cada array representa um tipo de onda.
 '''
-# senoide
+# senoide ----------------------------
 def synth_sen(sample_rate, frequencia):
     espaco_x = np.linspace(start=0, stop=1, num=int(sample_rate / frequencia), endpoint=False)
     num = 2 ** 31
@@ -15,8 +15,7 @@ def synth_sen(sample_rate, frequencia):
     senoide = np.clip(a=(senoide * num), a_max=num - 1, a_min=-num)
     senoide = senoide.astype(np.int32)
     return senoide
-# ---------------------------------------------------------------- #
-# quadrada
+# quadrada-----------------------------
 def synth_quad(sample_rate, frequencia):
     num = 2 ** 31
     n = int(sample_rate / frequencia)
@@ -24,15 +23,13 @@ def synth_quad(sample_rate, frequencia):
     negativo = n - positivo
     quadrada = np.concatenate((np.full(positivo, num - 1), np.full(negativo, -num)), dtype='int32')
     return quadrada
-# ------------------------------------------------------------------------------------------------ #
-# serra
+# serra -------------------------------
 def synth_serr(sample_rate, frequencia):
     num = (2 ** 31)
     espaco_x = np.linspace(start=(num - 1), stop=-num, num=int(sample_rate / frequencia))
     espaco_x = espaco_x.astype(np.int32)
     return espaco_x
-# -------------------------------------------------------------------------------------- #
-# triangular
+# triangular -------------------------
 def synth_tri(sample_rate, frequencia):
     num, n = (2 ** 31), int(sample_rate / frequencia)
     menor = n // 2
@@ -42,7 +39,7 @@ def synth_tri(sample_rate, frequencia):
     triangular = np.concatenate((array_a, array_b))
     return triangular
 # ==================================================================================================================== #
-# seletor de ondas
+# seletor de ondas -----------------------
 def seletor(sample_rate, tipo, frequencia):
     if tipo == 'senoide':
         return synth_sen(sample_rate=sample_rate, frequencia=frequencia)

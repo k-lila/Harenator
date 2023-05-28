@@ -11,8 +11,8 @@ from source.classe_Escalator import Escalator
     A biblioteca auxiliar contém um conjunto de funções auxiliares. As funções
 acessórias são funções úteis para a manipulação dos arrays de som. 
 """
-# funções acessórias -------------------------------------------------------- #
-# retorna 1hz a partir do array
+# funções acessórias --------------------------- #
+# retorna 1hz a partir do array -----------------
 def hz(chunk, duracao: float or int, sample_rate):
     ciclo = cycle(range(len(chunk)))
     num = int(sample_rate * duracao)
@@ -20,7 +20,7 @@ def hz(chunk, duracao: float or int, sample_rate):
     while len(hz) != num:
         hz = np.append(hz, chunk[next(ciclo)])
     return hz.astype(np.int32)
-# ------------------------------------------- #
+# ------------------------------------------ #
 # modifica a amplitude(intensidade) do array
 def amp(chunk, num):
     nova_onda = chunk * num
@@ -49,7 +49,7 @@ def get_teclado(diapasao=440, tipo='natural'):
             lista_teclado.append(_escala)
     return lista_teclado
 # ---------------------------------------------------- #
-# cria um arquivo wave
+# cria um arquivo wave ---------------
 def get_wave(chunk, sample_rate, path):
     file = wave.open(path, mode='w')
     file.setnchannels(1)
@@ -81,7 +81,7 @@ def get_playable():
         teclado.append(temp)
     return teclado
 # ---------------------------------- #
-# define a intensidade (volume)
+# define a intensidade (volume) -----
 def set_intensidade(intensidade, key):
     passo = 1 / 12
     up_vol = 1073741906

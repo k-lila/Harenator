@@ -15,7 +15,7 @@ class HareOom(object):
         self.frequencia = frequencia
         self.fundamental = self._get_fundamental()
     # ------------------------------------------ #
-    # onda fundamental
+    # onda fundamental -------
     def _get_fundamental(self):
         fundamental = ondas.seletor(
             sample_rate=self.sample_rate,
@@ -24,7 +24,7 @@ class HareOom(object):
         )
         return fundamental
     # ------------------------------------- #
-    # harmônico da fundamental
+    # harmônico da fundamental -------------
     def harmonico(self, num: int, tipo=None):
         num += 1
         if tipo == None:
@@ -93,14 +93,14 @@ class HareSom(HareOom):
         controle = len(self.fundamental)
         harmonicos = [self.fundamental]
         multiplicador = 2
-        # ajusta o tamanho dos arrays
+        # ajusta o tamanho dos arrays -----
         for i in range(1, len(self.timbre)):        
             onda = [self.timbre[i]] * multiplicador
             onda = np.concatenate(onda)
             num = len(onda)
             if num == controle:
                 harmonicos.append(onda)
-            else:  # adiciona ruído
+            else:  # adiciona ruído --
                 ruido = controle - num
                 indices = np.random.choice(a=num, size=ruido, replace=False)
                 for i in indices:
@@ -110,7 +110,7 @@ class HareSom(HareOom):
                 harmonicos.append(onda)
             multiplicador += 1
         self.timbre = harmonicos
-        # soma os harmônicos
+        # soma os harmônicos ----------------------
         onda_resultante = np.sum(harmonicos, axis=0)
         onda_resultante = (onda_resultante / len(harmonicos)).astype(np.int32)
         return onda_resultante

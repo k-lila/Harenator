@@ -1,11 +1,12 @@
 
 import pygame
 from source.biblioteca_sons import get_sounds
-from source.biblioteca_sons import funcionar, bassgor
+from source.biblioteca_sons import funcionar, bassgor, senoide, quadrada, serra, triangular
 import source.biblioteca_auxiliar as bib_aux
 
 # =========================================================================== #
-teclas = {'a', 's', 'd', 'f', 'g', 'h', 'j', 'k'}
+teclas_keys = {97, 115, 100, 102, 103, 104, 106, 107, 108, 231, 1073741824, 93}
+teclas_timbres = {'1', '2', '3', '4', '0', '9'}
 sample_rate = 48000
 oitava = 2
 intensidade = 0.6
@@ -19,47 +20,87 @@ def atualiza_sons():
         sample_rate=sample_rate, 
         tipo=tipo_escala, 
         diapasao=diapasao)
-# ---------------------------------------- #
-# coloca as notas a soar
-def tocador(tecla_pressionada, intensidade):
+# -------------------------------------- #
+# coloca as notas a soar ----------------
+def tocador(key_pressionada, intensidade):
     sound = None
-    if tecla_pressionada == 'a':
+    if key_pressionada == 97:
         sound = teclado[oitava][0]
-    if tecla_pressionada == 's':
+    if key_pressionada == 115:
         sound = teclado[oitava][1]
-    if tecla_pressionada == 'd':
+    if key_pressionada == 100:
         sound = teclado[oitava][2]
-    if tecla_pressionada == 'f':
+    if key_pressionada == 102:
         sound = teclado[oitava][3]
-    if tecla_pressionada == 'g':
+    if key_pressionada == 103:
         sound = teclado[oitava][4]
-    if tecla_pressionada == 'h':
+    if key_pressionada == 104:
         sound = teclado[oitava][5]
-    if tecla_pressionada == 'j':
+    if key_pressionada == 106:
         sound = teclado[oitava][6]
-    if tecla_pressionada == 'k':
+    if key_pressionada == 107:
         sound = teclado[oitava][7]
+    if key_pressionada == 108:
+        if oitava > 6:
+            sound = teclado[oitava][1]
+        else: 
+            sound = teclado[oitava + 1][1]
+    if key_pressionada == 231:
+        if oitava > 6:
+            sound = teclado[oitava][2]
+        else: 
+            sound = teclado[oitava + 1][2]
+    if key_pressionada == 1073741824:
+        if oitava > 6:
+            sound = teclado[oitava][3]
+        else: 
+            sound = teclado[oitava + 1][3]
+    if key_pressionada == 93:
+        if oitava > 6:
+            sound = teclado[oitava][4]
+        else: 
+            sound = teclado[oitava + 1][4]
     sound.set_volume(intensidade)
     return sound.play(loops=-1)
-# ------------------------------- #
+# ----------------------------- #
 # coloca as notas em silêncio
-def silenciador(tecla_levantada):
-    if tecla_levantada == 'a':
+def silenciador(key_levantada):
+    if key_levantada == 97:
         teclado[oitava][0].fadeout(1)
-    if tecla_levantada == 's':
+    if key_levantada == 115:
         teclado[oitava][1].fadeout(1)
-    if tecla_levantada == 'd':
+    if key_levantada == 100:
         teclado[oitava][2].fadeout(1)
-    if tecla_levantada == 'f':
+    if key_levantada == 102:
         teclado[oitava][3].fadeout(1)
-    if tecla_levantada == 'g':
+    if key_levantada == 103:
         teclado[oitava][4].fadeout(1)
-    if tecla_levantada == 'h':
+    if key_levantada == 104:
         teclado[oitava][5].fadeout(1)
-    if tecla_levantada == 'j':
+    if key_levantada == 106:
         teclado[oitava][6].fadeout(1)
-    if tecla_levantada == 'k':
+    if key_levantada == 107:
         teclado[oitava][7].fadeout(1)
+    if key_levantada == 108:
+        if oitava > 6:
+            teclado[oitava][1].fadeout(1)
+        else:
+            teclado[oitava + 1][1].fadeout(1)
+    if key_levantada == 231:
+        if oitava > 6:
+            teclado[oitava][2].fadeout(1)
+        else:
+            teclado[oitava + 1][2].fadeout(1)
+    if key_levantada == 1073741824:
+        if oitava > 6:
+            teclado[oitava][3].fadeout(1)
+        else:
+            teclado[oitava + 1][3].fadeout(1)
+    if key_levantada == 93:
+        if oitava > 6:
+            teclado[oitava][4].fadeout(1)
+        else:
+            teclado[oitava + 1][4].fadeout(1)
     return None
 # =========================================================================== #
 # Inicia o pygame
@@ -83,29 +124,45 @@ run = True
 while run:
     for event in pygame.event.get():
         # ------------------------- #
-        # quit
+        # quit ---------------------
         if event.type == pygame.QUIT:
             run = False
-        # ----------------------------------- #
-        # teclado
+# ------------------------------------ #
+# KEYDOWN -----------------------------
         if event.type == pygame.KEYDOWN:
             pressionada = event.dict['unicode']
             pressionada_key = event.dict['key']
-            # teclado musical
-            if pressionada in teclas:
-                tocador(pressionada, intensidade)
-            # Para todos os sons
+            # Interrompe todos os sons -> esc
             if pressionada == '\x1b':
                 pygame.mixer.stop()
-            # timbres básicos
-            if pressionada in {'1', '2'}:
+            # teclado musical ---------------
+            if pressionada_key in teclas_keys:
+                tocador(pressionada_key, intensidade)
+            # timbres básicos-----------------------
+            if pressionada in teclas_timbres:
                 if pressionada == '1':
+                    timbre = senoide
+                    intensidade = 0.6
+                if pressionada  == '2':
+                    timbre = quadrada
+                    intensidade = 0.2
+                if pressionada == '3':
+                    timbre = serra
+                    intensidade = 0.3
+                if pressionada == '4':
+                    timbre = triangular
+                    intensidade = 0.6
+                # -------------------
+                if pressionada == '0':
                     timbre = funcionar
-                if pressionada == '2':
+                    intensidade = 0.6
+                if pressionada == '9':
                     timbre = bassgor
+                    intensidade = 0.6
+                # -------------------
                 atualiza_sons()
                 teclado = bib_aux.get_playable()
-            # tipos de escalas
+            # tipos de escalas ----------------
             if pressionada in {'z', 'x', 'c'}:
                 if pressionada == 'z':
                     tipo_escala = 'natural'
@@ -115,19 +172,21 @@ while run:
                     tipo_escala = 'pitagorica'
                 atualiza_sons()
                 teclado = bib_aux.get_playable()
-            # seleciona a oitava
+            # seleciona a oitava -------------------------
             if pressionada_key in {1073741903, 1073741904}:
                 oitava = bib_aux.set_oitava(pressionada_key, oitava)
-            # Aumenta/diminui a intensidade
+            # Aumenta/diminui a intensidade -----------------------
             if pressionada_key in {1073741905, 1073741906}:
-                intensidade = bib_aux.set_intensidade(intensidade, pressionada_key)
-        # ----------------------------------------------------------------------- #
+                intensidade = bib_aux.set_intensidade(intensidade, 
+                                                    pressionada_key)
+# ---------------------------------------------------------------- #
+# KEYUP -----------------------------
         if event.type == pygame.KEYUP:
             despressionada = event.dict['unicode']
-            # silencia os sons
-            if despressionada in teclas:
-                silenciador(despressionada)
-        # ------------------------------------- #
-pygame.quit()
+            despressionada_key = event.dict['key']
+            # silencia os sons ------------------
+            if despressionada_key in teclas_keys:
+                silenciador(despressionada_key)
 # =========================================================================== #
-
+pygame.quit()                                                                 #
+# =========================================================================== #
