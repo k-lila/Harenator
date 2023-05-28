@@ -14,6 +14,26 @@ tipo_escala = 'temperada'
 diapasao = 440
 timbre = funcionar
 # =========================================================================== #
+titulo = 'harenator'
+text_list = [
+    'teclas:',
+    'oitavas:',
+    'volume:',
+    'escalas:',
+    'timbres:',
+    ]
+text_list2 = [
+    'a, s, d, f, g, h, j, k, l, ç, ~, ]',
+    'esquerda / direita',
+    'cima / baixo',
+    'z, x, c',
+    '1, 2, 3, 4, 0, 9,'
+]
+# =========================================================================== #
+def draw_text(text, font, text_color, x, y):
+    img = font.render(text, True, text_color)
+    screen.blit(img, (x, y))
+# --------------------------- #
 def atualiza_sons():
     return get_sounds(
         timbre=timbre, 
@@ -116,12 +136,22 @@ atualiza_sons()
 teclado = bib_aux.get_playable()
 # ---------------------------- #
 width = 600
-height = 400
+height = 320
 screen = pygame.display.set_mode((width, height))
+text_font = pygame.font.SysFont(None, 30)
+titulo_font = pygame.font.SysFont(None, 40)
 # =========================================================================== #
 # loop
 run = True
 while run:
+    screen.fill((0, 0, 0))
+    cor = (255, 255, 255)
+    draw_text(titulo, titulo_font, cor, 40, 40)
+    teste = [t for t in range(100, 241, 35)]
+    for index in range(len(text_list)):
+        draw_text(text_list[index], text_font, cor, 100, teste[index])
+        draw_text(text_list2[index], text_font, cor, 250, teste[index])
+# ------------------------------------------------------------------- #
     for event in pygame.event.get():
         # ------------------------- #
         # quit ---------------------
@@ -187,6 +217,7 @@ while run:
             # silencia os sons ------------------
             if despressionada_key in teclas_keys:
                 silenciador(despressionada_key)
+    pygame.display.flip()
 # =========================================================================== #
 pygame.quit()                                                                 #
 # =========================================================================== #
