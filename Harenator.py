@@ -21,13 +21,15 @@ text_list = [
     'volume:',
     'escalas:',
     'timbres:',
+    'parar:'
     ]
 text_list2 = [
     'a, s, d, f, g, h, j, k, l, ç, ~, ]',
     'esquerda / direita',
     'cima / baixo',
     'z, x, c',
-    '1, 2, 3, 4, 0, 9,'
+    '1, 2, 3, 4, 0, 9,',
+    'esc'
 ]
 # =========================================================================== #
 def draw_text(text, font, text_color, x, y):
@@ -136,7 +138,7 @@ atualiza_sons()
 teclado = bib_aux.get_playable()
 # ---------------------------- #
 width = 600
-height = 320
+height = 350
 screen = pygame.display.set_mode((width, height))
 text_font = pygame.font.SysFont(None, 30)
 titulo_font = pygame.font.SysFont(None, 40)
@@ -147,7 +149,7 @@ while run:
     screen.fill((0, 0, 0))
     cor = (255, 255, 255)
     draw_text(titulo, titulo_font, cor, 40, 40)
-    teste = [t for t in range(100, 241, 35)]
+    teste = [t for t in range(100, 276, 35)]
     for index in range(len(text_list)):
         draw_text(text_list[index], text_font, cor, 100, teste[index])
         draw_text(text_list2[index], text_font, cor, 250, teste[index])
@@ -217,6 +219,7 @@ while run:
             # silencia os sons ------------------
             if despressionada_key in teclas_keys:
                 silenciador(despressionada_key)
+# ---------------------------------------------------------------- #
     pygame.display.flip()
 # =========================================================================== #
 pygame.quit()                                                                 #
