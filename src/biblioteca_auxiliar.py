@@ -2,9 +2,8 @@
 import numpy as np
 import wave
 import pygame
-
 from itertools import cycle
-from source.classe_Escalator import Escalator
+from src.classe_Escalator import Escalator
 
 # =========================================================================== #
 """
@@ -76,7 +75,7 @@ def get_playable():
     for i in range(8):
         temp = []
         for ii in range(8):
-            som = pygame.mixer.Sound(f'./source/wav/{i}{ii}.wav')
+            som = pygame.mixer.Sound(f'./src/wav/{i}{ii}.wav')
             temp.append(som)
         teclado.append(temp)
     return teclado

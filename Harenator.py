@@ -1,8 +1,9 @@
 
 import pygame
-from source.biblioteca_sons import get_sounds
-from source.biblioteca_sons import funcionar, bassgor, senoide, quadrada, serra, triangular
-import source.biblioteca_auxiliar as bib_aux
+from src.biblioteca_sons import get_sounds
+from src.biblioteca_sons import funcionar, bassgor, senoide, quadrada, serra, triangular
+import src.biblioteca_auxiliar as bib_aux
+
 
 # =========================================================================== #
 teclas_keys = {97, 115, 100, 102, 103, 104, 106, 107, 108, 231, 1073741824, 93}

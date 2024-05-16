@@ -1,6 +1,6 @@
 
 import numpy as np
-import source.biblioteca_ondas as ondas
+import src.biblioteca_ondas as ondas
 
 # ==================================================================================================================== #
 # Classe HareOom

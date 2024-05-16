@@ -1,6 +1,6 @@
 
-from source.classe_hareOomSom import HareOom, HareSom
-from source.biblioteca_auxiliar import amp, get_teclado, get_wave
+from src.classe_hareOomSom import HareOom, HareSom
+from src.biblioteca_auxiliar import amp, get_teclado, get_wave
 
 # =========================================================================== #
 '''
@@ -60,6 +60,6 @@ def get_sounds(timbre: dict, sample_rate, tipo='temperada', diapasao=440):
             get_wave(
                 chunk=som,
                 sample_rate=sample_rate,
-                path=f'./source/wav/{oitava_index}{nota_index}.wav'
+                path=f'./src/wav/{oitava_index}{nota_index}.wav'
             )
 # =========================================================================== #
